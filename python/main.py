@@ -1,4 +1,5 @@
 import itertools
+import time
 
 
 living_cells = set([(0, 0),
@@ -10,10 +11,6 @@ living_cells = set([(0, 0),
                     (2, 4),
                     (2, 5),
                     (2, 6)])
-
-# living_cells = set([(0, 0),
-#                     (0, 1),
-#                     (0, -1)])
 
 
 def get_neighbors(cell):
@@ -54,19 +51,24 @@ def print_board(living_cells):
     b1_max = max(living_cells, key=lambda x: x[1])[1]
     print(living_cells)
 
-    for i in range(b0_min, b0_max+1):
-        for j in range(b1_min, b1_max+1):
-            if (i, j) in living_cells:
-                print('+', end=" ")
-            else:
-                print('.', end=" ")
-        print()
+    out = '\n'.join(
+        [' '.join(
+            ['+' if (i, j) in living_cells else '.'
+             for j in range(b1_min, b1_max+1)])
+            for i in range(b0_min, b0_max+1)]
+        )
+    print(out)
 
 
-for _ in range(1000):
+def compute_next_generation(living_cells):
     new_living_cells = filter(lambda x: check_alive(x, living_cells), living_cells)
     all_neighbors = map(get_neighbors, living_cells)
     all_neighbors = set(itertools.chain.from_iterable(all_neighbors))
     newly_living_cells = filter(lambda x: check_becomes_alive(x, living_cells), all_neighbors)
-    living_cells = set(new_living_cells).union(newly_living_cells)
+    return set(new_living_cells).union(newly_living_cells)
+
+
+for _ in range(10000):
+    living_cells = compute_next_generation(living_cells)
     print_board(living_cells)
+    time.sleep(0.5)
