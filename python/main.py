@@ -68,7 +68,8 @@ def compute_next_generation(living_cells):
     return set(new_living_cells).union(newly_living_cells)
 
 
-for _ in range(10000):
-    living_cells = compute_next_generation(living_cells)
-    print_board(living_cells)
-    time.sleep(0.5)
+if __name__ == '__main__':
+    for _ in range(10000):
+        living_cells = compute_next_generation(living_cells)
+        print_board(living_cells)
+        time.sleep(0.5)
