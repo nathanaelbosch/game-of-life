@@ -69,7 +69,8 @@ def compute_next_generation(living_cells):
 
 
 if __name__ == '__main__':
-    for _ in range(10000):
+    for _ in range(100000):
         living_cells = compute_next_generation(living_cells)
-        print_board(living_cells)
-        time.sleep(0.5)
+        # print_board(living_cells)
+        # time.sleep(0.5)
+    print(living_cells)

@@ -57,9 +57,12 @@ staysAlive livingCells cell =
 nextPopulation :: CellSet -> CellSet
 nextPopulation livingCells =
   let
+    stillLivingCells :: CellSet
     stillLivingCells = Set.filter (staysAlive livingCells) livingCells
 
-    deadNeighbors = Set.difference (Set.unions(Set.map getNeighbors livingCells)) livingCells
+    deadNeighbors = Set.difference
+      (Set.unions (Set.map getNeighbors livingCells))
+      livingCells
     newlyLivingCells = Set.filter (becomesAlive livingCells) deadNeighbors
   in Set.union newlyLivingCells stillLivingCells
 
